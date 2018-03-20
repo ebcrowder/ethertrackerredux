@@ -1,18 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip
+} from 'recharts';
+import { fetchHistory } from '../actions';
+import _ from 'lodash';
 
 class PriceGraph extends Component {
+  componentDidMount() {
+    this.props.fetchHistory();
+  }
+
+  renderHistory() {
+    return _.map(this.props.data);
+  }
+
   render() {
+    let data = this.renderHistory();
+
     return (
-      <div className="container text-center">
-        <div className="jumbotron">
-          <h1 className="display-4">Ethererum price graph</h1>
-          <p className="lead">
-            This is the price of ethererum in graph format!
-          </p>
-        </div>
+      <div className="container">
+        <LineChart
+          width={1100}
+          height={400}
+          data={data}
+          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+        >
+          <Line type="monotone" dataKey="close" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+        </LineChart>
       </div>
     );
   }
 }
 
-export default PriceGraph;
+function mapStateToProps(state) {
+  return { data: state.data };
+}
+
+export default connect(mapStateToProps, { fetchHistory })(PriceGraph);

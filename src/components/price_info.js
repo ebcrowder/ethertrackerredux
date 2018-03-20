@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { fetchPrice } from '../actions';
+import _ from 'lodash';
 
 class PriceInfo extends Component {
   componentDidMount() {
@@ -10,7 +10,7 @@ class PriceInfo extends Component {
 
   renderPrice() {
     return _.map(this.props.price, price => {
-      return <div>{price.amount}</div>;
+      return <div key={_.random(0, 5)}>{price.amount}</div>;
     });
   }
 
