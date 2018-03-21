@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { fetchHistory } from '../actions';
 import _ from 'lodash';
+import moment from 'moment';
 
 class PriceGraph extends Component {
   componentDidMount() {
@@ -17,11 +18,18 @@ class PriceGraph extends Component {
   }
 
   renderHistory() {
-    return _.map(this.props.data);
+    const data = _.map(this.props.data);
+    console.log(data);
+    const formattedData = data.map(e => ({
+      date: moment.unix(+e.date).format('MM/DD/YYYY'),
+      close: +e.close
+    }));
+    return formattedData;
   }
 
   render() {
-    let data = this.renderHistory();
+    const data = this.renderHistory();
+    console.log(data);
 
     return (
       <div className="container">
@@ -29,7 +37,7 @@ class PriceGraph extends Component {
           width={1100}
           height={400}
           data={data}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+          margin={{ top: 5, right: 20, bottom: 5, left: 5 }}
         >
           <Line type="monotone" dataKey="close" stroke="#8884d8" />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
