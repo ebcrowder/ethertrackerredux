@@ -5,7 +5,7 @@ export const FETCH_HISTORY = 'fetch_history';
 
 const SPOT_URL = 'https://api.coinbase.com/v2/prices/ETH-USD/spot';
 const HISTORY_URL =
-  'https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETH&start=1514764800&end=9999999999&period=14400';
+  'https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETH&start=1514764800&end=9999999999&period=86400';
 
 export function fetchPrice() {
   const request = axios.get(`${SPOT_URL}`);

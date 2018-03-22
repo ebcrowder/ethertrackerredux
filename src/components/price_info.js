@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPrice } from '../actions';
 import _ from 'lodash';
+import moment from 'moment';
 
 class PriceInfo extends Component {
   componentDidMount() {
@@ -16,10 +17,11 @@ class PriceInfo extends Component {
 
   render() {
     return (
-      <div className="container text-center">
-        <div className="jumbotron">
+      <div className="container text-center bg-dark">
+        <div className="jumbotron bg-info text-white">
           <h1 className="display-4">{this.renderPrice()}</h1>
-          <p className="lead">This is the price of ethererum!</p>
+          <p className="lead">Ethereum in USD</p>
+          <p>{moment().format('MMMM Do YYYY, h:mm:ss a')}</p>
         </div>
       </div>
     );

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -19,32 +19,42 @@ class PriceGraph extends Component {
 
   renderHistory() {
     const data = _.map(this.props.data);
-    console.log(data);
-    const formattedData = data.map(e => ({
-      date: moment.unix(+e.date).format('MM/DD/YYYY'),
-      close: +e.close
+    const formattedData = data.map(a => ({
+      date: moment.unix(+a.date).format('M/DD'),
+      close: _.ceil(+a.close, 2)
     }));
     return formattedData;
   }
 
   render() {
     const data = this.renderHistory();
-    console.log(data);
 
     return (
       <div className="container">
-        <LineChart
+        <AreaChart
           width={1100}
           height={400}
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 5 }}
         >
-          <Line type="monotone" dataKey="close" stroke="#8884d8" />
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
-        </LineChart>
+          <Area
+            type="monotone"
+            dataKey="close"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#colorUv)"
+          />
+        </AreaChart>
       </div>
     );
   }
